@@ -1,1 +1,1 @@
-# ecommerce-app-golang
+## E-Commerce App in Golang & React
