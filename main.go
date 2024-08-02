@@ -21,8 +21,4 @@ func main() {
 	appConcept.MasterConcepts()
 
 	log.Fatal(app.Listen(":9000"))
-
-	// Basic Types: int, float64, string, bool
-	// Composite Types: array, slice, map, struct
-	// Pointer Types: *
 }
