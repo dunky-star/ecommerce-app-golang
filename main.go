@@ -3,26 +3,27 @@ package main
 import (
 	"log"
 
-	appConcept "github.com/dunky-star/ecommerce-app-golang/concept"
-	appConfig "github.com/dunky-star/ecommerce-app-golang/config"
-	"github.com/gofiber/fiber/v2"
+	"github.com/dunky-star/ecommerce-app-golang/config"
+	"github.com/dunky-star/ecommerce-app-golang/internal/api"
 )
 
-func main() {
-	app := fiber.New()
+// appConcept "github.com/dunky-star/ecommerce-app-golang/concept"
 
-	appConfig.LoadAppSettings()
+func main() {
+
+	cfg, err := config.SetupEnv()
+	if err != nil {
+		log.Fatalf("config file is not loaded properly %v\n", err)
+	}
+
+	api.StartServer(cfg)
 
 	// Routes
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, Fiber!!!")
-	})
+	// app.Get("/", func(c *fiber.Ctx) error {
+	// 	return c.SendString("Hello, Fiber!!!")
+	// })
 
-	appConcept.MasterConcepts()
+	//appConcept.MasterConcepts()
+	//appConcept.FuncConcepts()
 
-	log.Fatal(app.Listen(":9000"))
-
-	// Basic Types: int, float64, string, bool
-	// Composite Types: array, slice, map, struct
-	// Pointer Types: *
 }
