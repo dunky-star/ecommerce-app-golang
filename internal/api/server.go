@@ -23,6 +23,11 @@ func StartServer(config config.AppConfig) {
 }
 
 func setupRouteHandler(rh *rest.RestHandler) {
+	// User handler
 	handlers.SetupUserRoute(rh)
+	// Server health handler
 	handlers.SetupServerRoute(rh)
+	// Catalog handler
+
+	// Transaction handler
 }
