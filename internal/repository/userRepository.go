@@ -23,6 +23,16 @@ type userRepository struct {
 	db *gorm.DB
 }
 
+func NewUserRepository(db *gorm.DB) UserRepository {
+	return &userRepository{
+		db: db,
+	}
+}
+
+func (r userRepository) CreateBankAccount(e domain.BankAccount) error {
+	return r.db.Create(&e).Error
+}
+
 func (r userRepository) CreateUser(user domain.User) (domain.User, error) {
 	err := r.db.Create(&user).Error
 	if err != nil {

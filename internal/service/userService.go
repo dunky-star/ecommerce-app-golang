@@ -2,24 +2,25 @@ package service
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"time"
 
 	"github.com/dunky-star/ecommerce-app-golang/config"
 	"github.com/dunky-star/ecommerce-app-golang/internal/domain"
 	"github.com/dunky-star/ecommerce-app-golang/internal/dto"
+	"github.com/dunky-star/ecommerce-app-golang/internal/helper"
+	"github.com/dunky-star/ecommerce-app-golang/internal/repository"
 )
 
 type UserService struct {
-	//Repo repository.UserRepository
-	//Auth   helper.Auth
+	Repo   repository.UserRepository
+	Auth   helper.Auth
 	Config config.AppConfig
 }
 
 func (s UserService) Signup(input dto.UserSignup) (string, error) {
 
-	//hPassword, err := s.Auth.CreateHashedPassword(input.Password)
+	hPassword, err := s.Auth.CreateHashedPassword(input.Password)
 
 	if err != nil {
 		return "", err
@@ -94,14 +95,14 @@ func (s UserService) GetVerificationCode(e domain.User) error {
 	user, _ = s.Repo.FindUserById(e.ID)
 
 	// send SMS
-	notificationClient := notification.NewNotificationClient(s.Config)
+	// notificationClient := notification.NewNotificationClient(s.Config)
 
-	msg := fmt.Sprintf("Your verification code is %v", code)
+	// msg := fmt.Sprintf("Your verification code is %v", code)
 
-	err = notificationClient.SendSMS(user.Phone, msg)
-	if err != nil {
-		return errors.New("error on sending sms")
-	}
+	// err = notificationClient.SendSMS(user.Phone, msg)
+	// if err != nil {
+	// 	return errors.New("error on sending sms")
+	// }
 
 	// return verification code
 	return nil
