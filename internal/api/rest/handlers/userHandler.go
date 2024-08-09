@@ -4,18 +4,24 @@ import (
 	"net/http"
 
 	"github.com/dunky-star/ecommerce-app-golang/internal/api/rest"
+	"github.com/dunky-star/ecommerce-app-golang/internal/dto"
+	"github.com/dunky-star/ecommerce-app-golang/internal/service"
 	"github.com/gofiber/fiber/v2"
 )
 
 type UserHandler struct {
 	// svc UserService
+	svc service.UserService
 }
 
 func SetupUserRoute(rh *rest.RestHandler) {
 	app := rh.App
 
 	// Create an instance of user service and inject to handler
-	handler := UserHandler{}
+	svc := service.UserService{}
+	handler := UserHandler{
+		svc: svc,
+	}
 
 	// Public end-points
 	app.Post("/register", handler.Register)
@@ -30,7 +36,7 @@ func SetupUserRoute(rh *rest.RestHandler) {
 	app.Post("/cart", handler.AddToCart)
 	app.Get("/cart", handler.GetCart)
 	app.Post("/order", handler.CreateOrder)
-	app.Post("/order", handler.GetOrders)
+	app.Get("/order", handler.GetOrders)
 	app.Get("/order/:id", handler.GetOrder)
 
 	app.Post("/become-seller", handler.BecomeSeller)
@@ -38,8 +44,25 @@ func SetupUserRoute(rh *rest.RestHandler) {
 }
 
 func (h *UserHandler) Register(ctx *fiber.Ctx) error {
+	// to create user
+	user := dto.UserSignup{}
+	err := ctx.BodyParser(&user)
+	if err != nil {
+		return ctx.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": "please provide valid inputs",
+		})
+	}
+
+	// Call Signup service
+	token, err := h.svc.Signup(user)
+	if err != nil {
+		return ctx.Status(http.StatusInternalServerError).JSON(&fiber.Map{
+			"message": "error on signup",
+		})
+	}
+
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "Registered",
+		"message": token,
 	})
 }
 
