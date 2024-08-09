@@ -6,6 +6,7 @@ import (
 	"github.com/dunky-star/ecommerce-app-golang/config"
 	"github.com/dunky-star/ecommerce-app-golang/internal/api/rest"
 	"github.com/dunky-star/ecommerce-app-golang/internal/api/rest/handlers"
+	"github.com/dunky-star/ecommerce-app-golang/internal/domain"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -34,7 +35,9 @@ func StartServer(config config.AppConfig) {
 
 	rh := &rest.RestHandler{
 		App: app,
+		DB:  db,
 	}
+
 	setupRouteHandler(rh)
 
 	log.Fatal(app.Listen(config.ServerPort))
