@@ -12,14 +12,14 @@ import (
 )
 
 type UserService struct {
-	Repo repository.UserRepository
+	//Repo repository.UserRepository
 	//Auth   helper.Auth
 	Config config.AppConfig
 }
 
 func (s UserService) Signup(input dto.UserSignup) (string, error) {
 
-	hPassword, err := s.Auth.CreateHashedPassword(input.Password)
+	//hPassword, err := s.Auth.CreateHashedPassword(input.Password)
 
 	if err != nil {
 		return "", err
