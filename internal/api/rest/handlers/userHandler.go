@@ -24,8 +24,8 @@ func SetupUserRoute(rh *rest.RestHandler) {
 	}
 
 	// Public end-points
-	app.Post("/register", handler.Register)
-	app.Post("/login", handler.Login)
+	app.Post("api/v1/register", handler.Register)
+	app.Post("api/v1/login", handler.Login)
 
 	// Private end-points
 	app.Get("/verify", handler.GetVerificationCode)
